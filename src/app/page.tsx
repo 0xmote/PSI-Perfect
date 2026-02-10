@@ -353,6 +353,9 @@ export default function Home() {
 
         <footer className="mt-16 border-t border-[#e8e8ed] pt-8 text-center text-sm text-[#86868b]">
           Google PageSpeed Insights 100점을 위한 이미지 전처리 도구
+          <span className="mt-2 block text-xs text-[#86868b]/80">
+            브라우저에서만 처리 · 서버 저장 없이 로컬로 즉시 다운로드
+          </span>
         </footer>
       </div>
     </div>

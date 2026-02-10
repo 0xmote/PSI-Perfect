@@ -1,5 +1,8 @@
 import JSZip from "jszip";
 
+/**
+ * 최적화된 파일들을 서버에 올리지 않고, 사용자 PC로 ZIP으로 즉시 다운로드합니다.
+ */
 export async function downloadAsZip(
   files: { blob: Blob; filename: string }[]
 ): Promise<void> {
