@@ -49,10 +49,23 @@ npx wrangler pages deploy out --project-name=psi-perfect
 
 ---
 
-## 자산 디렉터리를 찾을 수 없다는 에러가 나는 경우
+## "Deploying to Cloudflare's global network"에서 실패하는 경우
 
-에러 메시지에 "assets directory" 또는 "Failed: error occurred while running deploy command"가 보이면, Wrangler가 정적 파일이 있는 폴더를 못 찾는 상황입니다. 이 프로젝트에는 **`wrangler.jsonc`**가 포함되어 있어 `pages_build_output_dir`가 `./out`으로 설정되어 있습니다.  
-대시보드에서 **Build output directory**를 **`out`**으로 설정했는지 한 번 더 확인한 뒤 재배포해 보세요.
+빌드는 성공했는데 **배포 단계만** 실패한다면, 대시보드에서 **Build output directory**가 비어 있거나 잘못된 값일 가능성이 큽니다. Git 연동 배포는 이 값을 대시보드에서만 읽습니다.
+
+### 해결 방법
+
+1. **Cloudflare 대시보드** → **Workers & Pages** → 해당 **Pages 프로젝트** 선택
+2. **Settings** 탭 → **Builds & deployments** 섹션
+3. **Build configurations**에서 **Edit configuration** (또는 프로젝트 생성 시 빌드 설정)
+4. 다음을 확인/수정:
+   - **Framework preset**: **Next.js (Static HTML Export)** 선택  
+     (이 프리셋이 Build output directory를 `out`으로 설정합니다)
+   - **Build command**: `npm run build`
+   - **Build output directory**: **`out`** 으로 반드시 입력 (비워두지 말 것)
+5. **Save** 후 **Retry deployment** 또는 새 커밋 푸시로 재배포
+
+프리셋을 바꾼 뒤에도 **Build output directory** 필드가 비어 있으면 수동으로 `out`을 입력해야 합니다.
 
 ---
 
