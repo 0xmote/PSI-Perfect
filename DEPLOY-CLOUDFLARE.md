@@ -18,6 +18,53 @@
 
 ---
 
+## 변경사항 배포하기 (Git 연동 시)
+
+코드 수정 후 배포하는 방법:
+
+1. **커밋**  
+   `git add .` → `git commit -m "메시지"`
+2. **푸시**  
+   `git push origin main` (또는 Cloudflare에서 **Production branch**로 지정한 브랜치)
+
+푸시가 되면 Cloudflare가 자동으로 빌드 후 배포합니다.  
+대시보드 **Deployments** 탭에서 진행 상황을 볼 수 있습니다.
+
+---
+
+## 브랜치 전략 (권장)
+
+### 옵션 A: 단순 전략 (소규모/솔로)
+
+- **`main`** 하나만 사용
+- `main`에 직접 푸시 → 자동 배포
+- Cloudflare Pages 설정: **Production branch** = `main`
+
+```
+main ──●──●──●──●  (푸시할 때마다 배포)
+```
+
+### 옵션 B: GitHub Flow (기능별 작업)
+
+- **`main`**: 항상 배포 가능한 상태, 여기 푸시/머지 시 프로덕션 배포
+- **기능 브랜치**: `feature/이름`, `fix/이름` 등에서 작업 후 PR로 `main`에 머지
+
+```
+main     ──────●────────●────────●  (머지될 때마다 배포)
+feature/ ○──○──○
+              ↘ PR → 머지
+```
+
+**흐름 예시**
+
+1. 새 기능: `git checkout -b feature/기능이름` → 작업 → 커밋 → 푸시
+2. PR 생성 후 리뷰(또는 self-merge)
+3. `main`에 머지 → Cloudflare가 자동 배포
+
+**미리보기**: Cloudflare Pages에서 **Builds for non-production branches**를 켜 두면, `main`이 아닌 브랜치도 푸시 시 자동으로 빌드되고 **Preview URL**이 생깁니다.
+
+---
+
 ## 방법 2: Wrangler CLI (직접 업로드)
 
 로컬에서 빌드한 뒤 `out` 폴더만 업로드하는 방식입니다.
